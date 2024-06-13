@@ -6,8 +6,13 @@ const Contracts = () => {
 
   useEffect(() => {
     const fetchContracts = async () => {
-      const res = await axios.get('http://localhost:5000/api/contracts');
-      setContracts(res.data);
+      try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const res = await axios.get(`${apiUrl}/api/contracts`);
+        setContracts(res.data);
+      } catch (err) {
+        console.error('Error fetching contracts:', err.response?.data?.message || err.message);
+      }
     };
     fetchContracts();
   }, []);

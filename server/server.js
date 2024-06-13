@@ -16,6 +16,7 @@ app.use('/api/', rateLimiter);
 app.use('/api/athletes', require('./routes/athletes'));
 app.use('/api/investors', require('./routes/investors'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/contracts', require('./routes/contracts')); // Add the contracts route
 app.use('/api/payments', require('./routes/payments'));
 
 app.use(errorHandler);

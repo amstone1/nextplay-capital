@@ -10,7 +10,8 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/athletes/profile', {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const res = await axios.get(`${apiUrl}/api/athletes/profile`, {
           headers: { 'x-auth-token': token }
         });
         setProfile(res.data);
@@ -25,6 +26,8 @@ const Profile = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  if (!profile) return <div>No profile data found.</div>;
 
   return (
     <div>

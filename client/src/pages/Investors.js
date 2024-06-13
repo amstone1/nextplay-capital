@@ -6,8 +6,13 @@ const Investors = () => {
 
   useEffect(() => {
     const fetchInvestors = async () => {
-      const res = await axios.get('http://localhost:5000/api/investors');
-      setInvestors(res.data);
+      try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const res = await axios.get(`${apiUrl}/api/investors`);
+        setInvestors(res.data);
+      } catch (err) {
+        console.error('Error fetching investors:', err.response?.data?.message || err.message);
+      }
     };
     fetchInvestors();
   }, []);

@@ -16,16 +16,13 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {token ? (
+        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/register" element={<Register setToken={setToken} />} />
+        {token && (
           <>
             <Route path="/profile" element={<Profile />} />
             <Route path="/investors" element={<Investors />} />
             <Route path="/contracts" element={<Contracts />} />
-          </>
-        ) : (
-          <>
-            <Route path="/login" element={<Login setToken={setToken} />} />
-            <Route path="/register" element={<Register setToken={setToken} />} />
           </>
         )}
       </Routes>
