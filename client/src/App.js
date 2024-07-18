@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Investors from './pages/Investors';
-import Contracts from './pages/Contracts';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import NavBar from './components/NavBar';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ThemeProvider } from 'styled-components';
+import { GlobalProvider } from './context/GlobalState';
+import { lightTheme, darkTheme } from './styles/theme';
+import GlobalStyle from './styles/GlobalStyle';
+import AppContent from './AppContent';
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
 
   return (
-    <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/register" element={<Register setToken={setToken} />} />
-        {token && (
-          <>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/investors" element={<Investors />} />
-            <Route path="/contracts" element={<Contracts />} />
-          </>
-        )}
-      </Routes>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <GlobalProvider>
+        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+          <GlobalStyle />
+          <Router>
+            <AppContent toggleTheme={toggleTheme} />
+          </Router>
+        </ThemeProvider>
+      </GlobalProvider>
+    </QueryClientProvider>
   );
 }
 

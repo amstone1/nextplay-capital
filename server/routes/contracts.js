@@ -1,13 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const Contract = require('../models/Contract');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
-    const contracts = await Contract.find().populate('athlete').populate('investor');
-    res.json(contracts);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = (page - 1) * limit;
+
+    const total = await Contract.countDocuments();
+    const contracts = await Contract.find()
+      .skip(startIndex)
+      .limit(limit)
+      .populate('athlete', 'name sport')
+      .populate('investor', 'username');
+
+    res.json({
+      contracts,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalContracts: total
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error fetching contracts:', error);
+    res.status(500).json({ message: 'An error occurred while fetching contracts' });
   }
 });
 
