@@ -110,6 +110,7 @@ const athleteSchema = Yup.object().shape({
       then: (schema) => schema.required('UTR User ID is required for Tennis players'),
       otherwise: (schema) => schema.nullable()
     }),
+<<<<<<< HEAD
     tennisAbstractId: Yup.string().when('sport', {
       is: 'Tennis',
       then: (schema) => schema
@@ -119,6 +120,13 @@ const athleteSchema = Yup.object().shape({
       otherwise: (schema) => schema.nullable()
     }),
     noTennisAbstractProfile: Yup.boolean()
+=======
+    tennisAbstractId: Yup.string().when(['sport', 'noTennisAbstractProfile'], {
+      is: (sport, noTennisAbstractProfile) => sport === 'Tennis' && !noTennisAbstractProfile,
+      then: (schema) => schema.required('Tennis Abstract ID is required for Tennis players with a profile'),
+      otherwise: (schema) => schema.nullable()
+    })
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   })
 });
 

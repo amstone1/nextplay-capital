@@ -21,11 +21,14 @@ const investmentSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+<<<<<<< HEAD
   contract: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Contract',
     default: null
   },
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   date: {
     type: Date,
     default: Date.now

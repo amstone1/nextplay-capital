@@ -14,6 +14,19 @@ const setSchema = new mongoose.Schema({
 }, { _id: false });
 
 const athleteSchema = new mongoose.Schema({
+<<<<<<< HEAD
+=======
+  tennisAbstractId: {
+    type: String,
+    unique: true,
+    sparse: true,
+    required: function() { return this.sport === 'Tennis' && !this.noTennisAbstractProfile; }
+  },
+  noTennisAbstractProfile: {
+    type: Boolean,
+    default: false
+  },
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -62,6 +75,7 @@ const athleteSchema = new mongoose.Schema({
   },
   utrUserId: {
     type: String,
+<<<<<<< HEAD
     sparse: true,
     unique: true,
     required: function() { return this.sport === 'Tennis'; }
@@ -76,6 +90,10 @@ const athleteSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+=======
+    required: function() { return this.sport === 'Tennis'; }
+  },
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   utrData: {
     profileData: {
       id: String,
@@ -131,6 +149,7 @@ const athleteSchema = new mongoose.Schema({
       longestWinStreak: { type: Number, default: 0 },
       averageWinStreak: { type: Number, default: null }
     }
+<<<<<<< HEAD
   },
   tennisAnalytics: {
     name: String,
@@ -170,6 +189,8 @@ const athleteSchema = new mongoose.Schema({
       score: String,
       round: String
     }]
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   }
 }, { timestamps: true });
 

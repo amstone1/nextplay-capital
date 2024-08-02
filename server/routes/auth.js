@@ -15,6 +15,10 @@ function fuzzyNameMatch(name1, name2) {
   return cleanName(name1) === cleanName(name2);
 }
 
+<<<<<<< HEAD
+=======
+// Helper function for consistent error logging
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 function logError(message, error) {
   console.error(message, {
     error: error.message,
@@ -49,12 +53,20 @@ router.post('/register', [
   const { email, password, username, userType, phoneNumber, athleteInfo, investorInfo } = req.body;
 
   try {
+<<<<<<< HEAD
+=======
+    // Check if user already exists
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     let user = await User.findOne({ $or: [{ email }, { username }] });
     if (user) {
       console.log('User already exists:', email, username);
       return res.status(400).json({ message: 'User already exists' });
     }
 
+<<<<<<< HEAD
+=======
+    // Create new user
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     user = new User({
       email,
       password,
@@ -66,9 +78,17 @@ router.post('/register', [
     await user.save();
     console.log('User created successfully:', user.username);
 
+<<<<<<< HEAD
     if (userType === 'athlete') {
       console.log('Creating athlete:', athleteInfo);
   
+=======
+    // Create profile based on user type
+    if (userType === 'athlete') {
+      console.log('Creating athlete:', athleteInfo);
+  
+      // Validate Tennis Abstract ID
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       if (athleteInfo.sport === 'Tennis' && !athleteInfo.noTennisAbstractProfile && athleteInfo.tennisAbstractId) {
         try {
           console.log(`Validating Tennis Abstract ID: ${athleteInfo.tennisAbstractId}`);
@@ -77,7 +97,11 @@ router.post('/register', [
             headers: {
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             },
+<<<<<<< HEAD
             timeout: 10000
+=======
+            timeout: 10000 // 10 seconds timeout
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
           });
           console.log('Tennis Abstract response status:', response.status);
           
@@ -88,6 +112,10 @@ router.post('/register', [
           const $ = cheerio.load(response.data);
           console.log('Cheerio loaded HTML successfully');
       
+<<<<<<< HEAD
+=======
+          // Extract player name from JavaScript code
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
           const scriptContent = $('script:contains("var fullname")').html();
           const nameMatch = scriptContent.match(/var fullname = '(.+?)';/);
           const playerName = nameMatch ? nameMatch[1] : null;
@@ -115,6 +143,7 @@ router.post('/register', [
         sport: athleteInfo.sport,
         fundingGoal: athleteInfo.fundingGoal,
         earningsOption: athleteInfo.earningsOption,
+<<<<<<< HEAD
         earningsPercentage: athleteInfo.earningsOption === 'percentage' ? athleteInfo.earningsPercentage : undefined,
         durationYears: athleteInfo.earningsOption === 'percentage' ? athleteInfo.durationYears : undefined,
         firstXPercentage: athleteInfo.earningsOption === 'fixed' ? athleteInfo.firstXPercentage : undefined,
@@ -123,20 +152,42 @@ router.post('/register', [
         utrUserId: athleteInfo.sport === 'Tennis' ? athleteInfo.utrUserId : undefined,
         tennisAbstractId: athleteInfo.sport === 'Tennis' && !athleteInfo.noTennisAbstractProfile ? athleteInfo.tennisAbstractId : undefined,
         noTennisAbstractProfile: athleteInfo.sport === 'Tennis' ? athleteInfo.noTennisAbstractProfile : undefined
+=======
+        earningsPercentage: athleteInfo.earningsOption === 'percentage' ? athleteInfo.earningsPercentage : null,
+        durationYears: athleteInfo.earningsOption === 'percentage' ? athleteInfo.durationYears : null,
+        firstXPercentage: athleteInfo.earningsOption === 'fixed' ? athleteInfo.firstXPercentage : null,
+        firstYDollars: athleteInfo.earningsOption === 'fixed' ? athleteInfo.firstYDollars : null,
+        contractActivation: athleteInfo.contractActivation,
+        utrUserId: athleteInfo.sport === 'Tennis' ? athleteInfo.utrUserId : null,
+        tennisAbstractId: athleteInfo.sport === 'Tennis' && !athleteInfo.noTennisAbstractProfile ? athleteInfo.tennisAbstractId : null,
+        noTennisAbstractProfile: athleteInfo.sport === 'Tennis' ? athleteInfo.noTennisAbstractProfile : null
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       });
 
       if (athlete.sport === 'Tennis' && athlete.utrUserId) {
         try {
           const utrData = await fetchUTRData(athlete.utrUserId);
+<<<<<<< HEAD
           if (utrData && utrData.currentRatings) {
             athlete.utrData = {
               currentRatings: utrData.currentRatings
+=======
+          if (utrData) {
+            athlete.utrData = {
+              currentRatings: {
+                singlesUtr: utrData.currentRatings.singlesUtr,
+                doublesUtr: utrData.currentRatings.doublesUtr
+              }
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
             };
           }
         } catch (utrError) {
           console.error('Error fetching UTR data:', utrError);
+<<<<<<< HEAD
           // We'll continue with registration but log the error
           // You might want to set a flag in the athlete model or handle this differently
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
         }
       }
 
@@ -164,6 +215,10 @@ router.post('/register', [
       console.log('Investor profile created:', investor);
     }
 
+<<<<<<< HEAD
+=======
+    // Create and return JWT token
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     const payload = {
       user: {
         id: user.id
@@ -196,7 +251,10 @@ router.post('/register', [
   }
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 // @route   POST api/auth/login
 // @desc    Authenticate user & get token
 // @access  Public
@@ -291,6 +349,7 @@ router.get('/me', authMiddleware, async (req, res) => {
 });
 
 async function fetchUTRData(utrUserId) {
+<<<<<<< HEAD
   console.log('Fetching UTR data for:', utrUserId);
   try {
     const response = await axios.get(`https://app.universaltennis.com/api/v1/player/${utrUserId}/profile`);
@@ -312,6 +371,18 @@ async function fetchUTRData(utrUserId) {
     console.error('Error fetching UTR data:', error.message);
     throw error;
   }
+=======
+  // Implement the logic to fetch UTR data
+  // This is a placeholder function
+  console.log('Fetching UTR data for:', utrUserId);
+  // In a real implementation, you would make an API call to UTR here
+  return {
+    currentRatings: {
+      singlesUtr: 10.5, // Example value
+      doublesUtr: 10.2  // Example value
+    }
+  };
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 }
 
 module.exports = router;

@@ -4,7 +4,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 const { athleteValidationRules, validateAthlete } = require('../validation/athleteValidation');
 const axios = require('axios');
 const cheerio = require('cheerio');
+<<<<<<< HEAD
 const { fetchUTRData } = require('../utils/utrService');
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 
 const router = express.Router();
 
@@ -59,6 +62,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Athlete not found' });
     }
 
+<<<<<<< HEAD
     if (athlete.sport === 'Tennis') {
       if (athlete.utrUserId) {
         try {
@@ -105,6 +109,42 @@ router.get('/:id', authMiddleware, async (req, res) => {
       }
 
       await athlete.save();
+=======
+    if (athlete.sport === 'Tennis' && athlete.tennisAbstractId) {
+      try {
+        console.log(`Fetching data for Tennis Abstract ID: ${athlete.tennisAbstractId}`);
+        const url = `https://www.tennisabstract.com/cgi-bin/player.cgi?p=${athlete.tennisAbstractId}`;
+        console.log(`Requesting URL: ${url}`);
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+          },
+          timeout: 10000 // 10 seconds timeout
+        });
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
+        if (response.status !== 200) {
+          throw new Error(`Unexpected status code: ${response.status}`);
+        }
+
+        const processedData = processTeennisAbstractData(response.data);
+        console.log('Processed data:', JSON.stringify(processedData, null, 2));
+        
+        if (processedData.error) {
+          throw new Error(processedData.error);
+        }
+
+        athlete.tennisAnalytics = processedData;
+        await athlete.save();
+      } catch (error) {
+        logError('Error fetching Tennis Abstract data:', error);
+        athlete.tennisAnalytics = { 
+          error: 'Failed to fetch Tennis Abstract data',
+          details: error.message
+        };
+      }
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     }
 
     res.json(athlete);
@@ -119,6 +159,7 @@ router.post('/', authMiddleware, athleteValidationRules(), validateAthlete, asyn
   try {
     const athlete = new Athlete(req.body);
     
+<<<<<<< HEAD
     if (athlete.sport === 'Tennis') {
       if (athlete.utrUserId) {
         try {
@@ -147,6 +188,25 @@ router.post('/', authMiddleware, athleteValidationRules(), validateAthlete, asyn
           logError('Error fetching Tennis Abstract data for new athlete:', error);
           athlete.tennisAnalytics = { error: 'Failed to fetch Tennis Abstract data', details: error.message };
         }
+=======
+    if (athlete.sport === 'Tennis' && athlete.tennisAbstractId) {
+      try {
+        const url = `https://www.tennisabstract.com/cgi-bin/player.cgi?p=${athlete.tennisAbstractId}`;
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+          },
+          timeout: 10000 // 10 seconds timeout
+        });
+        const processedData = processTeennisAbstractData(response.data);
+        if (processedData.error) {
+          throw new Error(processedData.error);
+        }
+        athlete.tennisAnalytics = processedData;
+      } catch (error) {
+        logError('Error fetching Tennis Abstract data for new athlete:', error);
+        athlete.tennisAnalytics = { error: 'Failed to fetch Tennis Abstract data', details: error.message };
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       }
     }
 
@@ -168,6 +228,7 @@ router.put('/:id', authMiddleware, athleteValidationRules(), validateAthlete, as
 
     Object.assign(athlete, req.body);
 
+<<<<<<< HEAD
     if (athlete.sport === 'Tennis') {
       if (athlete.utrUserId) {
         try {
@@ -196,6 +257,25 @@ router.put('/:id', authMiddleware, athleteValidationRules(), validateAthlete, as
           logError('Error fetching Tennis Abstract data for athlete update:', error);
           athlete.tennisAnalytics = { error: 'Failed to fetch Tennis Abstract data', details: error.message };
         }
+=======
+    if (athlete.sport === 'Tennis' && athlete.tennisAbstractId) {
+      try {
+        const url = `https://www.tennisabstract.com/cgi-bin/player.cgi?p=${athlete.tennisAbstractId}`;
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+          },
+          timeout: 10000 // 10 seconds timeout
+        });
+        const processedData = processTeennisAbstractData(response.data);
+        if (processedData.error) {
+          throw new Error(processedData.error);
+        }
+        athlete.tennisAnalytics = processedData;
+      } catch (error) {
+        logError('Error fetching Tennis Abstract data for athlete update:', error);
+        athlete.tennisAnalytics = { error: 'Failed to fetch Tennis Abstract data', details: error.message };
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       }
     }
 

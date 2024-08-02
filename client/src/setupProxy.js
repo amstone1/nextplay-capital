@@ -4,6 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
+<<<<<<< HEAD
       target: 'http://localhost:5001',
       changeOrigin: true,
       pathRewrite: {
@@ -21,3 +22,10 @@ module.exports = function(app) {
     })
   );
 };
+=======
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+    })
+  );
+};
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a

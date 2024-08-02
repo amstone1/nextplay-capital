@@ -2,11 +2,18 @@ const express = require('express');
 const router = express.Router();
 const Investment = require('../models/Investment');
 const Athlete = require('../models/Athlete');
+<<<<<<< HEAD
 const Investor = require('../models/Investor');
 const authMiddleware = require('../middleware/authMiddleware');
 const mongoose = require('mongoose');
 
 router.post('/', authMiddleware, async (req, res) => {
+=======
+const authMiddleware = require('../middleware/authMiddleware');
+const mongoose = require('mongoose');
+
+router.post('/', authMiddleware, async (req, res, next) => {
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   const { athleteId, amount, paymentIntentId } = req.body;
   console.log(`Received investment request: athleteId=${athleteId}, amount=${amount}, paymentIntentId=${paymentIntentId}`);
   console.log(`User ID from auth middleware: ${req.user.id}`);
@@ -44,6 +51,7 @@ router.post('/', authMiddleware, async (req, res) => {
     const updatedAthlete = await athlete.save({ session });
     console.log(`Updated athlete invested amount: ${updatedAthlete.amountInvested}`);
 
+<<<<<<< HEAD
     // Update the investor's profile
     const investor = await Investor.findOneAndUpdate(
       { user: req.user.id },
@@ -65,6 +73,8 @@ router.post('/', authMiddleware, async (req, res) => {
     );
     console.log(`Updated investor profile: ${investor._id}`);
 
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     await session.commitTransaction();
     console.log('Transaction committed');
     session.endSession();
@@ -76,11 +86,14 @@ router.post('/', authMiddleware, async (req, res) => {
         name: updatedAthlete.name,
         amountInvested: updatedAthlete.amountInvested,
         progress: (updatedAthlete.amountInvested / updatedAthlete.fundingGoal) * 100
+<<<<<<< HEAD
       },
       updatedInvestor: {
         totalInvestment: investor.totalInvestment,
         investmentCount: investor.investmentCount,
         lastInvestmentDate: investor.lastInvestmentDate
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       }
     });
   } catch (error) {
@@ -89,7 +102,11 @@ router.post('/', authMiddleware, async (req, res) => {
     session.endSession();
     res.status(500).json({ 
       message: 'An error occurred while processing the investment', 
+<<<<<<< HEAD
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+=======
+      error: error.message,
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }

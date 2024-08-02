@@ -2,7 +2,11 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+=======
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 import api from '../api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
@@ -78,16 +82,27 @@ const AthleteDetail = () => {
     return response.data;
   });
 
+<<<<<<< HEAD
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error.message} />;
   if (!athlete) return <ErrorMessage message="Athlete not found" />;
 
   const { utrData, tennisAnalytics } = athlete;
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   const handleInvestClick = () => {
     navigate(`/invest/${athlete._id}`);
   };
 
+<<<<<<< HEAD
   const progress = (athlete.amountInvested / athlete.fundingGoal) * 100;
+=======
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error.message} />;
+  if (!athlete) return <ErrorMessage message="Athlete not found" />;
+
+  const { tennisAnalytics } = athlete;
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 
   return (
     <DetailContainer>
@@ -98,9 +113,15 @@ const AthleteDetail = () => {
         <p>Funding Goal: ${athlete.fundingGoal?.toLocaleString()}</p>
         <p>Amount Invested: ${athlete.amountInvested?.toLocaleString()}</p>
         <ProgressBar>
+<<<<<<< HEAD
           <ProgressFill $progress={progress} />
         </ProgressBar>
         <p>Progress: {progress.toFixed(2)}%</p>
+=======
+          <ProgressFill $progress={(athlete.amountInvested / athlete.fundingGoal) * 100} />
+        </ProgressBar>
+        <p>Progress: {((athlete.amountInvested / athlete.fundingGoal) * 100).toFixed(2)}%</p>
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       </Section>
       
       <Section>
@@ -120,6 +141,7 @@ const AthleteDetail = () => {
       </Section>
       
       {athlete.sport === 'Tennis' && (
+<<<<<<< HEAD
         <>
           {utrData && (
             <Section>
@@ -231,6 +253,163 @@ const AthleteDetail = () => {
             </Section>
           )}
         </>
+=======
+        <Section>
+          <h2>Tennis Information</h2>
+          <StatGrid>
+            <StatCard>
+              <StatTitle>Singles UTR</StatTitle>
+              <StatValue>{athlete.utrData?.currentRatings?.singlesUtr || 'N/A'}</StatValue>
+            </StatCard>
+            <StatCard>
+              <StatTitle>Doubles UTR</StatTitle>
+              <StatValue>{athlete.utrData?.currentRatings?.doublesUtr || 'N/A'}</StatValue>
+            </StatCard>
+          </StatGrid>
+
+          {athlete.noTennisAbstractProfile ? (
+            <p>This athlete doesn't have a Tennis Abstract profile.</p>
+          ) : (
+            athlete.tennisAbstractId ? (
+              <>
+                <h3>Tennis Abstract Data</h3>
+                {tennisAnalytics ? (
+                  <>
+                    <StatGrid>
+                      <StatCard>
+                        <StatTitle>Matches</StatTitle>
+                        <StatValue>{tennisAnalytics.matches}</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Win %</StatTitle>
+                        <StatValue>{tennisAnalytics.winPercentage?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Aces/Match</StatTitle>
+                        <StatValue>{tennisAnalytics.aces?.toFixed(2)}</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Double Faults/Match</StatTitle>
+                        <StatValue>{tennisAnalytics.doubleFaults?.toFixed(2)}</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>1st Serve %</StatTitle>
+                        <StatValue>{tennisAnalytics.firstServePercentage?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>2nd Serve %</StatTitle>
+                        <StatValue>{tennisAnalytics.secondServePercentage?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Break Points Saved</StatTitle>
+                        <StatValue>{tennisAnalytics.breakPointsSaved?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Break Points Converted</StatTitle>
+                        <StatValue>{tennisAnalytics.breakPointsConverted?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Total Points Won</StatTitle>
+                        <StatValue>{tennisAnalytics.totalPointsWon?.toFixed(2)}%</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Win/Loss Ratio</StatTitle>
+                        <StatValue>{tennisAnalytics.winLossRatio?.toFixed(2)}</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Avg Match Duration</StatTitle>
+                        <StatValue>{tennisAnalytics.averageMatchDuration?.toFixed(0)} min</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>Tiebreaks W/L</StatTitle>
+                        <StatValue>{tennisAnalytics.tiebreaksWon}/{tennisAnalytics.tiebreaksLost}</StatValue>
+                      </StatCard>
+                      <StatCard>
+                        <StatTitle>5-Set Matches W/L</StatTitle>
+                        <StatValue>{tennisAnalytics.fiveSetWins}/{tennisAnalytics.fiveSetMatches - tennisAnalytics.fiveSetWins}</StatValue>
+                      </StatCard>
+                    </StatGrid>
+
+                    <ChartContainer>
+                      <h3>Performance Over Time</h3>
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={tennisAnalytics.performanceOverTime}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="date" />
+                          <YAxis yAxisId="left" />
+                          <YAxis yAxisId="right" orientation="right" />
+                          <Tooltip />
+                          <Legend />
+                          <Line yAxisId="left" type="monotone" dataKey="winPercentage" stroke="#8884d8" name="Win %" />
+                          <Line yAxisId="right" type="monotone" dataKey="aces" stroke="#82ca9d" name="Aces" />
+                          <Line yAxisId="right" type="monotone" dataKey="doubleFaults" stroke="#ffc658" name="Double Faults" />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+
+                    <ChartContainer>
+                      <h3>Surface Performance</h3>
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={tennisAnalytics.surfacePerformance}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="surface" />
+                          <YAxis yAxisId="left" />
+                          <YAxis yAxisId="right" orientation="right" />
+                          <Tooltip />
+                          <Legend />
+                          <Bar yAxisId="left" dataKey="matches" fill="#8884d8" name="Matches Played" />
+                          <Bar yAxisId="right" dataKey="winPercentage" fill="#82ca9d" name="Win %" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+
+                    <ChartContainer>
+                      <h3>Shot Distribution</h3>
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={tennisAnalytics.shotDistribution}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            fill="#8884d8"
+                            label
+                          >
+                            {tennisAnalytics.shotDistribution.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                          <Legend />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+
+                    <ChartContainer>
+                      <h3>Strengths and Weaknesses</h3>
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={tennisAnalytics.strengthsWeaknesses}>
+                          <PolarGrid />
+                          <PolarAngleAxis dataKey="stat" />
+                          <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                          <Radar name="Player" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                          <Legend />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                  </>
+                ) : (
+                  <p>Tennis Abstract data is not available at the moment.</p>
+                )}
+              </>
+            ) : (
+              <p>Tennis Abstract ID not provided.</p>
+            )
+          )}
+        </Section>
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       )}
 
       <AccessibleButton

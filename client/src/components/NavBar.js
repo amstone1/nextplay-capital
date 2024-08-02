@@ -100,8 +100,11 @@ const NavBar = ({ toggleTheme }) => {
 
   const navItems = [
     { path: '/', label: 'Home' },
+<<<<<<< HEAD
     { path: '/utr-search', label: 'UTR Search' },
     { path: '/tennis-analytics', label: 'Tennis Analytics' },
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     ...(token
       ? [
           { path: '/profile', label: 'Profile' },

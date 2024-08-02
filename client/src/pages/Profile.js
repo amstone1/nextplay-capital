@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
+=======
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 import styled from 'styled-components';
 import { useGlobalState } from '../context/GlobalState';
 import api from '../api';
@@ -55,6 +61,7 @@ const PlayerName = styled.h1`
   margin: 0;
 `;
 
+<<<<<<< HEAD
 const InvestmentList = styled.ul`
   list-style-type: none;
   padding: 0;
@@ -67,6 +74,8 @@ const InvestmentItem = styled.li`
   border-radius: ${props => props.theme.borderRadius};
 `;
 
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 const formatScore = (score) => {
   if (!score || typeof score !== 'object') return 'N/A';
   return Object.entries(score)
@@ -77,10 +86,16 @@ const formatScore = (score) => {
 const Profile = () => {
   const navigate = useNavigate();
   const { token } = useGlobalState();
+<<<<<<< HEAD
   const queryClient = useQueryClient();
 
   const { data: profile, isLoading, error, refetch } = useQuery(
     'profile',
+=======
+
+  const { data: profile, isLoading, error } = useQuery(
+    ['profile', token],
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     async () => {
       const res = await api.get('/api/auth/me');
       return res.data;
@@ -95,6 +110,7 @@ const Profile = () => {
           navigate('/login');
         }
       },
+<<<<<<< HEAD
       staleTime: 0, // Always consider the data stale
       cacheTime: 0, // Don't cache the data
     }
@@ -113,6 +129,13 @@ const Profile = () => {
     };
   }, [refetch]);
 
+=======
+      staleTime: 300000, // 5 minutes
+      cacheTime: 3600000, // 1 hour
+    }
+  );
+
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message="Failed to load profile. Please try again later." />;
   if (!profile || !profile.user) return <ErrorMessage message="No profile data available" />;
@@ -213,6 +236,7 @@ const Profile = () => {
         <Section>
           <SectionTitle>Investor Information</SectionTitle>
           <ProfileInfo>Total Investment: ${profile.investor.totalInvestment?.toLocaleString() || '0'}</ProfileInfo>
+<<<<<<< HEAD
           <ProfileInfo>Investment Count: {profile.investor.investmentCount || 0}</ProfileInfo>
           <ProfileInfo>Last Investment Date: {profile.investor.lastInvestmentDate ? new Date(profile.investor.lastInvestmentDate).toLocaleDateString() : 'N/A'}</ProfileInfo>
           
@@ -230,6 +254,8 @@ const Profile = () => {
               </InvestmentItem>
             ))}
           </InvestmentList>
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
         </Section>
       )}
     </ProfileContainer>

@@ -14,8 +14,11 @@ const Contracts = lazy(() => import('./pages/Contracts'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/registration/Register'));
 const Invest = lazy(() => import('./pages/Invest'));
+<<<<<<< HEAD
 const UTRPlayerSearch = lazy(() => import('./pages/UTRPlayerSearch'));
 const TennisAnalytics = lazy(() => import('./pages/TennisAnalytics')); // Add this line
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 
 function AppContent({ toggleTheme }) {
   const { token, user } = useGlobalState();
@@ -45,8 +48,11 @@ function AppContent({ toggleTheme }) {
               <Route path="/athletes/:id" element={<ProtectedRoute allowedUserType="investor"><AthleteDetail /></ProtectedRoute>} />
               <Route path="/contracts" element={<ProtectedRoute><Contracts /></ProtectedRoute>} />
               <Route path="/invest/:id" element={<ProtectedRoute allowedUserType="investor"><Invest /></ProtectedRoute>} />
+<<<<<<< HEAD
               <Route path="/utr-search" element={<UTRPlayerSearch />} />
               <Route path="/tennis-analytics" element={<TennisAnalytics />} /> {/* Add this line */}
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
             </Routes>
           </Suspense>
         </ErrorBoundary>

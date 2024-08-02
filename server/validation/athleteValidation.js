@@ -39,6 +39,7 @@ const athleteValidationRules = () => {
       .withMessage('First Y dollars must be a number')
       .custom((value, { req }) => value > req.body.fundingGoal * 1.25)
       .withMessage('The return must be at least 25% more than the funding goal'),
+<<<<<<< HEAD
     check('utrUserId')
       .if(check('sport').equals('Tennis'))
       .notEmpty()
@@ -56,6 +57,8 @@ const athleteValidationRules = () => {
       .if(check('sport').equals('Tennis'))
       .isBoolean()
       .withMessage('noTennisAbstractProfile must be a boolean value')
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   ];
 };
 
@@ -70,4 +73,8 @@ const validateAthlete = (req, res, next) => {
 module.exports = {
   athleteValidationRules,
   validateAthlete,
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a

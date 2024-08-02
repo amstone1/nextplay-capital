@@ -52,7 +52,10 @@ const Invest = () => {
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const [logMessages, setLogMessages] = useState([]);
   const [updatedAthleteData, setUpdatedAthleteData] = useState(null);
+<<<<<<< HEAD
   const [error, setError] = useState(null);
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
   const queryClient = useQueryClient();
 
   const addLog = useCallback((message) => {
@@ -60,7 +63,11 @@ const Invest = () => {
     setLogMessages(prev => [...prev, message]);
   }, []);
 
+<<<<<<< HEAD
   const { data: athlete, isLoading, error: athleteError, refetch } = useQuery(['athlete', id], async () => {
+=======
+  const { data: athlete, isLoading, error, refetch } = useQuery(['athlete', id], async () => {
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     const response = await api.get(`/api/athletes/${id}`);
     addLog(`Fetched athlete data: ${JSON.stringify(response.data)}`);
     return response.data;
@@ -83,7 +90,10 @@ const Invest = () => {
       },
       onError: (error) => {
         addLog(`Error creating payment intent: ${error.message}`);
+<<<<<<< HEAD
         setError("There was an error processing your request. Please try again later.");
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       },
     }
   );
@@ -107,18 +117,28 @@ const Invest = () => {
         setUpdatedAthleteData(data.updatedAthlete);
         await refetch();
         queryClient.invalidateQueries(['athlete', id]);
+<<<<<<< HEAD
         queryClient.invalidateQueries('profile'); // Invalidate the profile query
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       },
       onError: (error) => {
         addLog(`Error processing investment: ${error.message}`);
         setPaymentProcessing(false);
+<<<<<<< HEAD
         setError("There was an error processing your investment. Please contact support.");
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       },
     }
   );
 
   if (isLoading) return <LoadingSpinner />;
+<<<<<<< HEAD
   if (athleteError) return <ErrorMessage message="Failed to fetch athlete data" />;
+=======
+  if (error) return <ErrorMessage message="Failed to fetch athlete data" />;
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
 
   const remainingFunding = Math.max(0, athlete.fundingGoal - athlete.amountInvested);
   const progress = (athlete.amountInvested / athlete.fundingGoal) * 100;
@@ -132,7 +152,10 @@ const Invest = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     addLog(`Handling submit with values: ${JSON.stringify(values)}`);
+<<<<<<< HEAD
     setError(null);
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     try {
       const clientSecret = await createPaymentIntent.mutateAsync(values.amount);
       addLog(`Client secret received: ${clientSecret}`);
@@ -140,7 +163,10 @@ const Invest = () => {
       setInvestedAmount(parseFloat(values.amount));
     } catch (error) {
       addLog(`Error in handleSubmit: ${error.message}`);
+<<<<<<< HEAD
       setError("There was an error processing your request. Please try again later.");
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     } finally {
       setSubmitting(false);
     }
@@ -149,14 +175,20 @@ const Invest = () => {
   const handlePaymentSuccess = async (paymentIntentId) => {
     addLog(`Payment success received with paymentIntentId: ${paymentIntentId}`);
     setPaymentProcessing(true);
+<<<<<<< HEAD
     setError(null);
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     
     try {
       await investmentMutation.mutateAsync({ amount: investedAmount, paymentIntentId });
       addLog('Investment recorded successfully');
     } catch (error) {
       addLog('Investment failed to record. Showing error message.');
+<<<<<<< HEAD
       setError("Your payment was successful, but there was an error recording the investment. Please contact support.");
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
       setShowConfirmation(false);
     } finally {
       setPaymentProcessing(false);
@@ -230,7 +262,20 @@ const Invest = () => {
 
       {paymentProcessing && <p>Processing your investment...</p>}
 
+<<<<<<< HEAD
       {error && <ErrorMessage message={error} />}
+=======
+      {(createPaymentIntent.isError || investmentMutation.isError) && (
+        <ErrorMessage 
+          message={
+            "Your payment was processed successfully, but there was an error recording the investment. " +
+            "Please contact support with your payment details. " +
+            ((createPaymentIntent.error || investmentMutation.error)?.message || 
+            'An error occurred during the investment process.')
+          }
+        />
+      )}
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     </InvestContainer>
   );
 };

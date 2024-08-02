@@ -27,7 +27,10 @@
     "formik": "^2.4.6",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
     "mongodb": "^6.8.0",
+=======
+>>>>>>> 6a91e8f6251b8d186ad4ef942dd89a8d70954b5a
     "mongoose": "^5.13.22",
     "prop-types": "^15.8.1",
     "react-number-format": "^5.4.0",
